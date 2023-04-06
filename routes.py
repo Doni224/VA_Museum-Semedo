@@ -55,15 +55,19 @@ DATASET_PATH = os.path.join(PATH, "train_img")
 def home():
     return render_template("index.html")
 
+@app.route('/koleksi1')
+def koleksi1():
+    return render_template("koleksi1.html")
+
 #menampilkan  database karyawan
-@app.route('/profil')
-def profil():
-    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cur.execute('SELECT * FROM home')
-    data = cur.fetchall()
+# @app.route('/profil')
+# def profil():
+#     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+#     cur.execute('SELECT * FROM home')
+#     data = cur.fetchall()
   
-    cur.close()
-    return render_template('profil.html', home = data)
+#     cur.close()
+#     return render_template('profil.html', home = data)
 
 
 #-------------------- Chatbot ----------------

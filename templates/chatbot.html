@@ -1,142 +1,136 @@
-<!DOCTYPE html>
-<html>
+
+{% block content %}
+<!doctype html>
+<html lang="en">
 
 <head>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chatbot.css')}}" />
-  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css.css')}}" /> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet"  href="../static/css/hero.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chatbot.css')}}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-<body>
-  <button class="buttonb"type="button" onclick="history.back();">Back</button>
-  <div class="bg"></div>
-  <section class="msger">
-    <header class="msger-header">
-      <div class="msger-header-title">
-        <i class="fas fa-bug"></i>Chatbot<i class="fas fa-bug"></i>
-      </div>
-    </header>
-
-    <main class="msger-chat"></main>
-      <div class="msg left-msg">
-        <div class="msg-img" ></div>
-
-        <div class="msg-bubble" id="msg-bubble">
-
-          <p class="botText">
-            <span>Halo Selamat datang, ada yang bisa saya bantu?</span>
-          </p>
+<body class="my-login-page">
+    <div class="containers">
+        <div class="row">
+            {% include 'navbar.html' %}
+            {% include 'header.html' %}
+            {% include 'profil.html' %}
+            {% include 'koleksi.html' %}
+            {% include 'about.html' %}
+            {% include 'galeri.html' %}
+            {% include 'kontak.html' %}
+            {% include 'maps.html' %}
+            {% include 'footer.html' %}
+            
         </div>
+    </div>
+   
+    <div class="section">
+  
+        <button class="chat-btn"> 
+            <i class="material-icons"> comment </i>
+        </button>
+      <div class="chat-popup">
+          <div class="badge">1</div>
+          <div class="chat-area msg-bubble" id="msg-bubble" style="font-size: 10px;">
+           <div class="income-msg">
+               <img src="/static/img/IMG_20221030_145042.jpg" class="avatar" alt="">
+               <span class="msg"> Hai, Apakah ada yang bisa saya bantu         
+               </span>
+           </div>   
+          </div>
+        
+              <div class="input-area">
+              <form class="msger-inputarea" id="userInput">
+                <input type="text" class="msger-input" id="text">
+                <button id="emoji-btn"> &#127773;</button>
+                <button type="submit" id="send" class="msger-send-btn submit"> <i class="material-icons"> send</i></button>
+              </form>
+          </div>
       </div>
-    </main>
-    <form class="msger-inputarea" id="userInput">
-      <input type="text" class="msger-input" id="text" placeholder="Ketikkan Pesan...">
-      <button type="submit" id="send" class="msger-send-btn">Kirim</button>
-    </form>
-  </section>
-  <script>
-    $(document).ready(function () {
-      $("form").on("submit", function (event) {
-        var rawText = $("#text").val();
-        var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
-        $("#text").val("");
-        $("#msg-bubble").append(userHtml);
-        document.getElementById("userInput").scrollIntoView({
-          block: "start",
-          behavior: "smooth",
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.1.1/dist/index.min.js"></script>
+    
+    <script>
+         const popup = document.querySelector('.chat-popup');
+    const chatBtn = document.querySelector('.chat-btn');
+    const submitBtn = document.querySelector('.msger-send-btn');
+    const chatArea = document.querySelector('.chat-area');
+    const inputElm = document.querySelector('input');
+    const emojiBtn = document.querySelector('#emoji-btn');
+    const picker = new EmojiButton();
+    
+    
+    // Emoji selection  
+      window.addEventListener('DOMContentLoaded', () => {
+    
+        picker.on('emoji', emoji => {
+          document.querySelector('input').value += emoji;
         });
-        $.ajax({
-          data: {
-            msg: rawText,
-          },
-          type: "POST",
-          url: "/get",
-        }).done(function (data) {
-          var botHtml = '<p class="botText"><span>' + data + "</span></p>";
-          $("#msg-bubble").append($.parseHTML(botHtml));
-          document.getElementById("userInput").scrollIntoView({
-            block: "start",
-            behavior: "smooth",
+      
+        emojiBtn.addEventListener('click', () => {
+          picker.togglePicker(emojiBtn);
+        });
+      });        
+    
+    //   chat button toggler 
+    
+    chatBtn.addEventListener('click', ()=>{
+        popup.classList.toggle('show');
+    })
+    
+    submitBtn.addEventListener('click', ()=>{
+        let userInput = inputElm.value;
+    
+        let temp = `<div class="out-msg">
+        <span class="my-msg">${userInput}</span>
+        <img src="img/me.jpg" class="avatar">
+        </div>`;
+    
+        chatArea.insertAdjacentHTML("beforeend", temp);
+        inputElm.value = '';
+    
+    })
+    
+        $(document).ready(function () {
+          $("form").on("submit", function (event) {
+            var rawText = $("#text").val();
+            var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+            $("#text").val("");
+            $("#msg-bubble").append(userHtml);
+            document.getElementById("userInput").scrollIntoView({
+              block: "start",
+              behavior: "smooth",
+            });
+            $.ajax({
+              data: {
+                msg: rawText,
+              },
+              type: "POST",
+              url: "/get",
+            }).done(function (data) {
+              var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+              $("#msg-bubble").append($.parseHTML(botHtml));
+              document.getElementById("userInput").scrollIntoView({
+                block: "start",
+                behavior: "smooth",
+              });
+            });
+            event.preventDefault();
           });
         });
-        event.preventDefault();
-      });
-    });
-  </script>
-
-  <!-- <script src='https://use.fontawesome.com/releases/v5.0.13/js/all.js'></script>
-  <script>
-    const msgerForm = get(".msger-inputarea");
-    const msgerInput = get(".msger-input");
-    const msgerChat = get(".msger-chat");
-
-
-    // Icons made by Freepik from www.flaticon.com
-    const BOT_IMG = "../../static/images/sampah.png";
-    const PERSON_IMG = "../../static/images/pp2.png";
-    const BOT_NAME = "Green";
-    const PERSON_NAME = "You";
-
-    msgerForm.addEventListener("submit", event => {
-      event.preventDefault();
-
-      const msgText = msgerInput.value;
-      if (!msgText) return;
-
-      appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
-      msgerInput.value = "";
-      botResponse(msgText);
-    });
-
-    function appendMessage(name, img, side, text) {
-      //   Simple solution for small apps
-      const msgHTML = `
-<div class="msg ${side}-msg">
-  <div class="msg-img" style="background-image: url(${img})"></div>
-
-  <div class="msg-bubble">
-    <div class="msg-info">
-      <div class="msg-info-name">${name}</div>
-      <div class="msg-info-time">${formatDate(new Date())}</div>
-    </div>
-
-    <div class="msg-text">${text} </div>
-  </div>
-</div>
-`;
-
-      msgerChat.insertAdjacentHTML("beforeend", msgHTML);
-      msgerChat.scrollTop += 500;
-    }
-
-    function botResponse(rawText) {
-
-      // Bot Response
-      $.get("/get", {
-        msg: rawText
-      }).done(function (data) {
-        console.log(rawText);
-        console.log(data);
-        const msgText = data;
-        appendMessage(BOT_NAME, BOT_IMG, "left", msgText);
-
-      });
-
-    }
-
-
-    // Utils
-    function get(selector, root = document) {
-      return root.querySelector(selector);
-    }
-
-    function formatDate(date) {
-      const h = "0" + date.getHours();
-      const m = "0" + date.getMinutes();
-
-      return `${h.slice(-2)}:${m.slice(-2)}`;
-    }
-  </script> -->
+      </script>
+    
+    </script>
+    
+    <!-- <nav class="icon ">
+        <div class=" fixed-top">
+            
+            <a class="" href="/chatbot/"> <img style="width:60px; " src="../static/img/chatbot.png"></a>
+            <button style="width:56px; float:right;  " class="navbartoggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas s"></i></button>     -->
 </body>
 
 </html>
+{% endblock %}

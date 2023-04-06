@@ -1,31 +1,20 @@
-{% extends 'includes/includes.html' %}
+
 {% block content %}
 <!doctype html>
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../static/css/login.css">
-    <style>
-        .icon {
-            position: absolute;
-            z-index: 9999;
-            left: 90%;
-            bottom: 5%
-        }
-    </style>
+    <link rel="stylesheet"  href="../static/css/hero.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chatbot.css')}}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="my-login-page">
     <div class="containers">
         <div class="row">
             {% include 'navbar.html' %}
+            
             {% include 'header.html' %}
             {% include 'profil.html' %}
             {% include 'koleksi.html' %}
@@ -36,15 +25,108 @@
             {% include 'footer.html' %}
             
         </div>
-    </div>
-   
-    <div class="icon "> 
         
-        <a href="/chatbot" >
-            <img src="../static/img/chatbot.png" width="85px" height="85px"></a>
-              <!-- <button style="width:56px; float:right;  " class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-bars"></i></button>  -->
     </div>
+    <div class="section">
+  
+        <button class="chat-btn"> 
+            <i class="material-icons"> comment </i>
+        </button>
+      <div class="chat-popup">
+          <div class="badge">1</div>
+          <div class="chat-area msg-bubble" id="msg-bubble" style="font-size: 15px;">
+           <div class="income-msg">
+               <img src="/static/img/IMG_20221030_145042.jpg" class="avatar" alt="">
+               <span class="msg"> Hai, Apakah ada yang bisa saya bantu         
+               </span>
+           </div>   
+          </div>
+        
+              <div class="input-area">
+              <form class="msger-inputarea" id="userInput">
+                <input type="text" class="msger-input" id="text">
+                <button id="emoji-btn"> &#127773;</button>
+                <button type="submit" id="send" class="msger-send-btn submit"> <i class="material-icons"> send</i></button>
+              </form>
+          </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.1.1/dist/index.min.js"></script>
+    
+    <script>
+         const popup = document.querySelector('.chat-popup');
+    const chatBtn = document.querySelector('.chat-btn');
+    const submitBtn = document.querySelector('.msger-send-btn');
+    const chatArea = document.querySelector('.chat-area');
+    const inputElm = document.querySelector('input');
+    const emojiBtn = document.querySelector('#emoji-btn');
+    const picker = new EmojiButton();
+    
+    
+    // Emoji selection  
+      window.addEventListener('DOMContentLoaded', () => {
+    
+        picker.on('emoji', emoji => {
+          document.querySelector('input').value += emoji;
+        });
+      
+        emojiBtn.addEventListener('click', () => {
+          picker.togglePicker(emojiBtn);
+        });
+      });        
+    
+    //   chat button toggler 
+    
+    chatBtn.addEventListener('click', ()=>{
+        popup.classList.toggle('show');
+    })
+    
+//     submitBtn.addEventListener('click', ()=>{
+//     let userInput = inputElm.value;
+
+//     let temp = `<div class="out-msg">
+//     <span class="my-msg">${userInput}</span>
+//     <img src="img/me.jpg" class="avatar">
+//     </div>`;
+
+//     chatArea.insertAdjacentHTML("beforeend", temp);
+    
+
+// })
+    
+        $(document).ready(function () {
+            
+          $("form").on("submit", function (event) {
+            var rawText = $("#text").val();
+            var userHtml = '<p class="userText out-msg"> <span class="my-msg">'  + rawText + '</span><img src="/static/img/IMG_20221028_023748.jpg" class="avatar"></p> ';
+            $("#text").val("");
+            $("#msg-bubble").append(userHtml);
+            document.getElementById("userInput").scrollIntoView({
+              block: "start",
+              behavior: "smooth",
+            });
+            $.ajax({
+              data: {
+                msg: rawText,
+              },
+              type: "POST",
+              url: "/get",
+            }).done(function (data) {
+              var botHtml = '<div class="income-msg">' +'<img src="/static/img/IMG_20221030_145042.jpg" class="avatar">'  + '<span class="msg1">' + data + '</span>' + '</div>';
+              $("#msg-bubble").append($.parseHTML(botHtml));
+              document.getElementById("userInput").scrollIntoView({
+                block: "start",
+                behavior: "smooth",
+              });
+            });
+            event.preventDefault();
+          });
+        });
+
+        
+      </script>
+    
+    </script>
     
     <!-- <nav class="icon ">
         <div class=" fixed-top">

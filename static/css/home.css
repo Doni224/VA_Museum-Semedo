@@ -1,6 +1,6 @@
 .warna{
     background: #f5f6f8;
-    height: 90vh;
+    height: 80vh;
 }
 .gbr{
     background-color: #ffff;
@@ -43,7 +43,7 @@
 }
 @media only screen and (max-width: 768px) {
     .warna{
-        height: 130vh;
+        height: 100vh;
     }
     .ini-img img{
         margin-top: 20px;

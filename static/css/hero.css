@@ -30,8 +30,8 @@ z-index: -9999;
 display: none;
 }
 .heroDesc {
-margin-top:84px;
-margin-left: 10%;
+margin-top:14%;
+
 }
 .cta {
 position: relative;
@@ -48,8 +48,28 @@ color: #fff;
 border: none;
 }
 
+.card-title{
+  z-index: 999;
+  margin-top: -35px;
+  text-align: center;
+}
+ .reserv{
+  padding: 50px 10px 0px;
+}
+.card-reserv{
+  background-color:  #fcfcfc;
+  border-radius: 50px;
+  width: 10px;
+  box-shadow: 0 9px 6px 0 rgba(0,0,0,.1);
+}
+
+.btn-reserv{
+  z-index: 99;
+  margin: 20px 100px 0px;
+} */
+
 .cta .btn:hover {
-background: #3e6f7c;
+background: #4f919b;
 color: #fff;
 }
 @media only screen and (max-width: 480px) {
