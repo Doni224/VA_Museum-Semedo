@@ -23,12 +23,10 @@
                             <h2 style="color: black;">Museum Semedo</h2>
                         </div>
                         <div class="sub-heading">
-                          
-                            <p>Museum Semedo didirikan untuk melestarikan tinggalan kehidupan manusia 
-                                purba, mempublikasikan hasil penelitian, serta memberikan edukasi kepada 
-                                masyarakat mengenai nilai penting Semedo sebagai salah satu situs arkeologi 
-                                dan situs manusia purba terkemuka.</p>
+                          {% for n in home %}
+                            <p>{{n.desc}}</p>
                             
+                                {% endfor %}
                             </div>
                         </div>
                 </div>

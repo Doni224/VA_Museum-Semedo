@@ -1,7 +1,8 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, request, flash,  jsonify
+# from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, request, flash,  jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, jsonify
 from flask_mysqldb import MySQL, MySQLdb
 from functools import wraps
 import sys
@@ -53,21 +54,43 @@ DATASET_PATH = os.path.join(PATH, "train_img")
 #menampilkan halaman utama
 @app.route('/')
 def home():
-    return render_template("index.html")
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute('SELECT * FROM home')
+    cur.execute('SELECT * FROM about')
+    data = cur.fetchall()
+    cur.close()
+    return render_template("index.html", home=data)
+
+# @app.route('/')
+# def home():
+#     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+#     cur.execute('SELECT * FROM about')
+#     data = cur.fetchall()
+#     cur.close()
+#     return render_template('index.html', home = data)
 
 @app.route('/koleksi1')
 def koleksi1():
     return render_template("koleksi1.html")
 
 #menampilkan  database karyawan
-# @app.route('/profil')
-# def profil():
-#     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-#     cur.execute('SELECT * FROM home')
-#     data = cur.fetchall()
+@app.route('/profil')
+def profil():
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute('SELECT * FROM home')
+    data = cur.fetchall()
   
-#     cur.close()
-#     return render_template('profil.html', home = data)
+    cur.close()
+    return render_template('profil.html', home = data)
+
+@app.route('/tentang')
+def tentang():
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute('SELECT * FROM about')
+    data = cur.fetchall()
+  
+    cur.close()
+    return render_template('about.html', home = data)
 
 
 #-------------------- Chatbot ----------------

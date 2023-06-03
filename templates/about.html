@@ -43,9 +43,10 @@
                 
                 <h2 class="">Visi Museum Semedo </h2>
                 <div class="sub-heading">
-                    <p>ewujudkan pengelolaan tinggalan Situs Semedo yang terpadu sebagai 
-                        sarana penelitian, pelestarian situs, dan pendidikan bagi masyarakat serta 
-                        meningkatkan kesejahteraan masyarakat</p>
+                    {% for n in home %}
+                    <p>{{n.visi}}</p>
+
+                        {% endfor %}
                </div>
                 </div>
             </div>
