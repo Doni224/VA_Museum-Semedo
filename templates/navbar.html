@@ -25,16 +25,16 @@
                 margin-left: 70%;
             }
         }
-        @media only screen and (max-width: 450px) {
+        @media only screen and (max-width: 420px) {
              button.navbar-toggler{
-                margin-left: 110px;
+                margin-left: 140px;
               
                
             }
         }
         </style>
 </head>
-<div class="container-fluid bg-white navigation">
+<div  class="container-fluid bg-white navigation">
     <div class="container" >
         <div class="row" >
             <nav class="navbar navbar-expand-lg fixed-top">
@@ -47,27 +47,19 @@
                         <div class="collapse navbar-collapse bg-white "  style="float:rigth;" id="navbarText">
                             <ul class="navbar-nav  mb-4 mb-lg-0" >
                                 <li class="nav-item " >
-                                    <router-link class="nav-link active " to="/">Home</router-link>
+                                    <a class="nav-link" href="/">Beranda</a>
                                 </li>
                                 <li class="nav-item">
                                     <!-- <router-link class="nav-link" to="/chatbot">Koleksi</router-link> -->
                                     <a class="nav-link" href="/koleksi1">Koleksi</a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                    <router-link class="nav-link" to="/chatbot">Koleksi</router-link
-                                    <a class="nav-link" href="/koleksi1">VirtualTour</a>
-                                </li> -->
-                                <li class="nav-item">
-                                    <!-- <router-link class="nav-link" to="/FasilitasView">Galeri</router-link> -->
-                                    <a class="nav-link" href="#">Galeri</a>
-                                </li>
                                 <li class="nav-item">
                                     <!-- <router-link class="nav-link" to="/AboutView">Tentang Kami</router-link> -->
-                                    <a class="nav-link" href="#">Tentang Kami</a>
+                                    <a class="nav-link" href="/tentangkami">Tentang Kami</a>
                                 </li>
                                 <li class="nav-item">
                                     <!-- <router-link class="nav-link" to="/HalamankontakView">Kontak</router-link> -->
-                                    <a class="nav-link" href="#">Kontak</a>
+                                    <a class="nav-link" href="#Kontak">Kontak</a>
                                 </li>
                                                   
                             </ul>
@@ -78,5 +70,6 @@
         </div>
     </div>
 </div>   
+
 
 {% endblock %}

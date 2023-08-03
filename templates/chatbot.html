@@ -4,132 +4,100 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet"  href="../static/css/hero.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chatbot.css')}}" />
+    <!-- <link rel="stylesheet"  href="../static/css/hero.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/chatbot1.css')}}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="my-login-page">
-    <div class="containers">
-        <div class="row">
-            {% include 'navbar.html' %}
-            {% include 'header.html' %}
-            {% include 'profil.html' %}
-            {% include 'koleksi.html' %}
-            {% include 'about.html' %}
-            {% include 'galeri.html' %}
-            {% include 'kontak.html' %}
-            {% include 'maps.html' %}
-            {% include 'footer.html' %}
-            
-        </div>
-    </div>
-   
-    <div class="section">
   
-        <button class="chat-btn"> 
-            <i class="material-icons"> comment </i>
-        </button>
-      <div class="chat-popup">
-          <div class="badge">1</div>
-          <div class="chat-area msg-bubble" id="msg-bubble" style="font-size: 10px;">
-           <div class="income-msg">
-               <img src="/static/img/IMG_20221030_145042.jpg" class="avatar" alt="">
-               <span class="msg"> Hai, Apakah ada yang bisa saya bantu         
-               </span>
-           </div>   
-          </div>
-        
-              <div class="input-area">
-              <form class="msger-inputarea" id="userInput">
-                <input type="text" class="msger-input" id="text">
-                <button id="emoji-btn"> &#127773;</button>
-                <button type="submit" id="send" class="msger-send-btn submit"> <i class="material-icons"> send</i></button>
-              </form>
-          </div>
+    <div class="container">
+    <div class="row">
+      <div class="col-md-10 wadah-chat mt-5" >
+       
+        <div class="chat-areabot">
+          <div class="chat-bgc"></div>
+          <div class="chat-area msg-bubble" id="msg-bubble" >
+            <div class="income-msg mt-5">
+                <img src="/static/img/edo.png" class="avatar" alt="" style="  height: 70px;">
+                <span class="msg "> <img src="/static/img/VACsim.png" alt="" width="90px" height="90px"> <br>
+                  Hai, Saya Edo Asisstant Kamu <br> Apakah ada yang bisa saya bantu?         
+                </span>
+            </div>   
+           </div>
+         
+               <div class="input-area" >
+               <form class="msger-inputarea" id="userInput" >
+                <div class="d-flex">
+                  <input type="text" class="msger-input" id="text" >
+                  <button type="submit" id="send" class="msger-send-btn submit"> <i class="material-icons"> send</i></button>
+                </div>
+               </form>
+           </div>  
+        </div> 
       </div>
     </div>
+      
+    </div>
+   
+    
     <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.1.1/dist/index.min.js"></script>
     
     <script>
-         const popup = document.querySelector('.chat-popup');
-    const chatBtn = document.querySelector('.chat-btn');
-    const submitBtn = document.querySelector('.msger-send-btn');
-    const chatArea = document.querySelector('.chat-area');
-    const inputElm = document.querySelector('input');
-    const emojiBtn = document.querySelector('#emoji-btn');
-    const picker = new EmojiButton();
-    
-    
-    // Emoji selection  
-      window.addEventListener('DOMContentLoaded', () => {
-    
-        picker.on('emoji', emoji => {
-          document.querySelector('input').value += emoji;
-        });
       
-        emojiBtn.addEventListener('click', () => {
-          picker.togglePicker(emojiBtn);
-        });
-      });        
-    
-    //   chat button toggler 
-    
-    chatBtn.addEventListener('click', ()=>{
-        popup.classList.toggle('show');
-    })
-    
-    submitBtn.addEventListener('click', ()=>{
-        let userInput = inputElm.value;
-    
-        let temp = `<div class="out-msg">
-        <span class="my-msg">${userInput}</span>
-        <img src="img/me.jpg" class="avatar">
-        </div>`;
-    
-        chatArea.insertAdjacentHTML("beforeend", temp);
-        inputElm.value = '';
-    
-    })
-    
-        $(document).ready(function () {
-          $("form").on("submit", function (event) {
-            var rawText = $("#text").val();
-            var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
-            $("#text").val("");
-            $("#msg-bubble").append(userHtml);
-            document.getElementById("userInput").scrollIntoView({
-              block: "start",
-              behavior: "smooth",
-            });
-            $.ajax({
-              data: {
-                msg: rawText,
-              },
-              type: "POST",
-              url: "/get",
-            }).done(function (data) {
-              var botHtml = '<p class="botText"><span>' + data + "</span></p>";
-              $("#msg-bubble").append($.parseHTML(botHtml));
-              document.getElementById("userInput").scrollIntoView({
-                block: "start",
-                behavior: "smooth",
-              });
-            });
-            event.preventDefault();
-          });
-        });
-      </script>
-    
-    </script>
-    
-    <!-- <nav class="icon ">
-        <div class=" fixed-top">
-            
-            <a class="" href="/chatbot/"> <img style="width:60px; " src="../static/img/chatbot.png"></a>
-            <button style="width:56px; float:right;  " class="navbartoggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas s"></i></button>     -->
+      const chatBtn = document.querySelector('.chat-btn');
+      const submitBtn = document.querySelector('.msger-send-btn');
+      const chatArea = document.querySelector('.chat-area');
+      const inputElm = document.querySelector('input');
+
+      function scrollToBottom() {
+        var chatArea = document.getElementById("msg-bubble");
+        chatArea.scrollTop = chatArea.scrollHeight;
+  }
+ 
+    //   chatBtn.addEventListener('click', ()=>{
+    //     popup.classList.toggle('show');
+    // })
+ 
+
+ 
+     $(document).ready(function () {
+         
+       $("form").on("submit", function (event) {
+         var rawText = $("#text").val();
+         var userHtml = '<p class="userText out-msg" style="font-size: 15px;"> <span class="my-msg">'  + rawText + '</span><img src="/static/img/user.png" class="avatar" ></p> ';
+         $("#text").val("");
+         $("#msg-bubble").append(userHtml);
+         document.getElementById("userInput").scrollIntoView({
+           block: "start",
+           behavior: "smooth",
+         });
+         $.ajax({
+           data: {
+             msg: rawText,
+           },
+           type: "POST",
+           url: "https://haisus.site/dnn/get",
+         }).done(function (data) {
+           var botHtml = '<div class="income-msg">' +'<img src="/static/img/edo.png" class="avatar"  style="height: 70px;">'  + '<span class="msg1">' + data + '</span>' + '</div>';
+           $("#msg-bubble").append($.parseHTML(botHtml));
+           document.getElementById("userInput").scrollIntoView({
+             block: "start",
+             behavior: "smooth",
+           });
+           scrollToBottom();
+         });
+         event.preventDefault();
+       });
+     });
+
+     
+   </script>
+ 
+ </script>
 </body>
 
 </html>

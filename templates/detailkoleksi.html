@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Produk</title>
+  <!-- Load Bootstrap CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  
+</head>
+{% include 'navbar.html' %}
+<body>
+  
+  <div data-aos="zoom-in" class="container my-5 " style="padding-top: 90px;">
+    <div class="row">
+      <div class="col-md-8">
+        <img src="http://127.0.0.1:5001/static/img/{{detail.gambarkoleksi}}" alt="Gambar Produk" class="img-fluid mb-4">
+        <h2 class="fw-bold">{{detail.namakoleksi}}</h2>
+        <p class="fs-5">{{detail.deskripsikoleksi}}.</p>
+      </div>
+      <div class="col-md-4">
+        <h3 class="fw-bold mb-4">Produk Lainnya</h3>
+        {% for Dtlkoleksi in Detail %}
+        <div class="row">
+          <div class="col-md-12 mb-5">
+            <div class="card">
+              <img src="http://127.0.0.1:5001/static/img/{{Dtlkoleksi.gambarkoleksi}}" alt="Produk 1" class="card-img-top">
+              <div class="card-body">
+                <h4 class="card-title">{{Dtlkoleksi.namakoleksi}}</h4>
+                <p class="card-text">Deskripsi Produk 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <button class="btn btn-danger">Beli Sekarang</button>  
+            </div>
+            </div>
+          </div>
+          {% endfor %}
+          <!-- <div class="col-md-12 mb-4">
+            <div class="card">
+              <img src="img/semedo.jpg" alt="Produk 2" class="card-img-top">
+              <div class="card-body">
+                <h4 class="card-title">Judul Produk 2</h4>
+                <p class="card-text">Deskripsi Produk 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </div>
+            </div>
+          </div> -->
+          <!-- Tambahkan card untuk produk lainnya sesuai kebutuhan -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Bootstrap JS (Optional) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</body>
+<script>
+  AOS.init();
+</script>
+</html>

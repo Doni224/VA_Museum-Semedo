@@ -1,10 +1,10 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-# from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, request, flash,  jsonify
 from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, jsonify
 from flask_mysqldb import MySQL, MySQLdb
 from functools import wraps
+from flask_cors import CORS
 import sys
 import bcrypt
 import werkzeug
@@ -31,14 +31,21 @@ import re
 
 app = Flask(__name__)
 app.secret_key = "bigtuing"
-
+CORS(app)
 #Konfigurasi Database
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'virtualassisten'
+app.config['MYSQL_HOST'] = '45.143.81.40'
+app.config['MYSQL_USER'] = ' u1547396_haisus'
+app.config['MYSQL_PASSWORD'] = 'Y7,*V2I-+tpV'
+app.config['MYSQL_DB'] = ' u1547396_haisus'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
+
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = ''
+# app.config['MYSQL_DB'] = 'virtualassisten'
+# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+# mysql = MySQL(app)
 
 #Konfigurasi folder menyiman dataset
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -56,24 +63,71 @@ DATASET_PATH = os.path.join(PATH, "train_img")
 def home():
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cur.execute('SELECT * FROM home')
-    cur.execute('SELECT * FROM about')
     data = cur.fetchall()
+    cur.execute('SELECT * FROM about')
+    dataku = cur.fetchall()
+    cur.execute('SELECT * FROM kontak')
+    datakon = cur.fetchall()
     cur.close()
-    return render_template("index.html", home=data)
+    return render_template("index.html", home=data, kk=dataku, kontak=datakon)
+  
+
+@app.route("/chatbot")
+def chatbot():
+    return render_template("chatbot.html")
 
 # @app.route('/')
-# def home():
+# def about():
 #     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 #     cur.execute('SELECT * FROM about')
-#     data = cur.fetchall()
+#     dataku = cur.fetchall()
 #     cur.close()
-#     return render_template('index.html', home = data)
+#     return render_template('index.html', kk = dataku)
 
 @app.route('/koleksi1')
 def koleksi1():
-    return render_template("koleksi1.html")
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute('SELECT * FROM koleksi')
+    data = cur.fetchall()
+  
+    cur.close()
+    return render_template('koleksi1.html', menukoleksi = data)
 
-#menampilkan  database karyawan
+@app.route('/detailkoleksi/<detail_id>')
+def detailkoleksi(detail_id):
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute('SELECT * FROM koleksi WHERE id= %s' , (detail_id,))
+    data = cur.fetchone()
+    cur.execute('SELECT * FROM koleksi ORDER BY RAND() LIMIT 2')
+    dataku = cur.fetchall()
+    cur.close()
+    return render_template('detailkoleksi.html', detail = data, Detail= dataku)
+
+@app.route('/daftarkoleksi/search')
+def carikoleksi():
+    keyword = request.args.get('query')
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    if keyword:
+        # Lakukan pencarian dengan query yang diberikan menggunakan LIKE dan % untuk pencarian yang mirip
+        cur.execute("SELECT * FROM koleksi WHERE namakoleksi LIKE %s", ("%" + keyword + "%",))
+        data = cur.fetchall()
+    else:
+        # Jika tidak ada query, ambil semua data koleksi
+        cur.execute("SELECT * FROM koleksi")
+        data = cur.fetchall()
+
+    return render_template('koleksi1.html', menukoleksi = data)
+
+@app.route('/tentangkami')
+def tentangkami():
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute('SELECT * FROM about')
+    data = cur.fetchall()
+  
+    cur.close()
+    return render_template('tentangkami.html', tentang = data)
+
+#menampilkan  Profil
 @app.route('/profil')
 def profil():
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -92,71 +146,6 @@ def tentang():
     cur.close()
     return render_template('about.html', home = data)
 
-
-#-------------------- Chatbot ----------------
-
-@app.route("/chatbot")
-def chatbot():
-    return render_template("chatbot.html")
-
-model = load_model("chatbot\chatbot_model.h5")
-intents = json.loads(open("chatbot\intents.json").read())
-words = pickle.load(open("chatbot\words.pkl", "rb"))
-classes = pickle.load(open("chatbot\classes.pkl", "rb"))
-
-@app.route("/get", methods=["POST"])
-def chatbot_response():
-    msg = request.form["msg"]
-    if msg.startswith('my name is'):
-        name = msg[11:]
-        ints = predict_class(msg, model)
-        res1 = getResponse(ints, intents)
-        res =res1.replace("{n}",name)
-    elif msg.startswith('hi my name is'):
-        name = msg[14:]
-        ints = predict_class(msg, model)
-        res1 = getResponse(ints, intents)
-        res =res1.replace("{n}",name)
-    else:
-        ints = predict_class(msg, model)
-        res = getResponse(ints, intents)
-    return res
-
-def clean_up_sentence(sentence):
-    sentence_words = nltk.word_tokenize(sentence)
-    sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
-    return sentence_words
-
-def bow(sentence, words, show_details=True):
-    sentence_words = clean_up_sentence(sentence)
-    bag = [0] * len(words)
-    for s in sentence_words:
-        for i, w in enumerate(words):
-            if w == s:
-                bag[i] = 1
-                if show_details:
-                    print("found in bag: %s" % w)
-    return np.array(bag)
-
-def predict_class(sentence, model):
-    p = bow(sentence, words, show_details=False)
-    res = model.predict(np.array([p]))[0]
-    ERROR_THRESHOLD = 0.25
-    results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
-    results.sort(key=lambda x: x[1], reverse=True)
-    return_list = []
-    for r in results:
-        return_list.append({"intent": classes[r[0]], "probability": str(r[1])})
-    return return_list
-
-def getResponse(ints, intents_json):
-    tag = ints[0]["intent"]
-    list_of_intents = intents_json["intents"]
-    for i in list_of_intents:
-        if i["tag"] == tag:
-            result = random.choice(i["responses"])
-            break
-    return result
 
 
 

@@ -34,7 +34,7 @@
      }
     </style>
 </head>
-<div class="kontak">
+<div data-aos="fade-up" class="kontak" id="Kontak">
     <!-- <div class="heading-1" style="text-align: center;">
         <h2>Hubungi Kami</h2>
     </div> -->
@@ -53,6 +53,7 @@
             .
         </div>
         <div class="col-md-6">
+            {% for kon in kontak %}
             <div class="icn-pon">
                 <h3>Hubungi Kami Melalui</h3>
             </div>   
@@ -61,7 +62,7 @@
                 <img src="../static/img/Icons/email.png" alt="">
                </div>
                <div class="desk">
-                <p>doni090114@gmail.com</p>
+                <p>{{kon.email}}</p>
                </div>
             </div>
             <div class="ini-icn d-flex">
@@ -69,12 +70,14 @@
                  <img src="../static/img/Icons/Group 31.png" alt="">
                 </div>
                 <div class="desk">
-                 <p>0877-983-9387</p>
+                 <p>{{kon.nohp}}</p>
                 </div>
                 
              </div>
         </div>
+        {% endfor %}
         <div class="col-md-6">
+            {% for kon in kontak %}
             <div class="icn-sosmed">
                 <h3>Media Sosial Kami</h3>
             </div>
@@ -84,7 +87,7 @@
                         <img src="../static/img/Icons/facebook.png" alt="">
                     </div>
                     <div class="desk">
-                        <p>Museum Semedo</p>
+                        <p>{{kon.facebook}}</p>
                        </div>
                 </div>
                 <div class="col-sm-6  d-flex">
@@ -92,7 +95,7 @@
                         <img src="../static/img/Icons/instagram.png" alt="">
                     </div>
                     <div class="desk">
-                        <p>Museum_Semedo</p>
+                        <p>{{kon.instagram}}</p>
                        </div>
                 </div>
                 <div class="col-sm-6  d-flex">
@@ -100,7 +103,7 @@
                         <img src="../static/img/Icons/Vector.png" alt="">
                     </div>
                     <div class="desk">
-                        <p>Museum_Semedo</p>
+                        <p>{{kon.youtube}}</p>
                        </div>
                 </div>
                 <div class="col-sm-6  d-flex">
@@ -108,25 +111,13 @@
                         <img src="../static/img/Icons/twitter.png" alt="">
                     </div>
                     <div class="desk">
-                        <p>MuseumSemedo</p>
+                        <p>{{kon.twitter}}</p>
                        </div>
                 </div>
             </div>
-            <!-- <div class="ini-icn2 d-flex">
-                <div class="ini-img">
-                    <img src="../static/img/Icons/facebook.png" alt="">
-                </div>
-                <div class="desk">
-                    <p>Museum Semedo</p>
-                   </div>
-                   <div class="ini-img">
-                    <img src="../static/img/Icons/facebook.png" alt="">
-                </div>
-                <div class="desk">
-                    <p>Museum Semedo</p>
-                   </div>
-            </div> -->
+            {% endfor %}
         </div>
+
     </div>
    </div>
 </div>
