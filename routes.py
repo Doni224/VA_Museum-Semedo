@@ -5,8 +5,6 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_mysqldb import MySQL, MySQLdb
 from flask_cors import CORS
 import os
-from nltk.stem import WordNetLemmatizer
-lemmatizer = WordNetLemmatizer()
 
 
 
