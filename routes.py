@@ -3,28 +3,11 @@ from __future__ import division
 from __future__ import print_function
 from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, jsonify
 from flask_mysqldb import MySQL, MySQLdb
-from functools import wraps
 from flask_cors import CORS
-import sys
-import bcrypt
-import werkzeug
-import tensorflow as tf
-from scipy import misc
-from cv2 import cv2
-import numpy as np
 import os
-import time
-import pickle
-from skimage.transform import resize
-import random
-import numpy as np
-import pickle
-import json
-import nltk
-from keras.models import load_model
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
-import re
+
 
 
 #-------------------- Konfigurasi ----------------

@@ -1,0 +1,5 @@
+Flask
+Flask_Cors
+Flask_MySQLdb
+gunicorn
+scikit_image
