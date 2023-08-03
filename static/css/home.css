@@ -43,7 +43,7 @@
 }
 @media only screen and (max-width: 768px) {
     .warna{
-        height: 60vh;
+        height: 100vh;
     }
     .ini-img img{
         margin-top: 20px;
