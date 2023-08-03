@@ -15,9 +15,9 @@ app.secret_key = "bigtuing"
 CORS(app)
 #Konfigurasi Database
 app.config['MYSQL_HOST'] = '45.143.81.40'
-app.config['MYSQL_USER'] = ' u1547396_haisus'
+app.config['MYSQL_USER'] = 'u1547396_haisus'
 app.config['MYSQL_PASSWORD'] = 'Y7,*V2I-+tpV'
-app.config['MYSQL_DB'] = ' u1547396_haisus'
+app.config['MYSQL_DB'] = 'u1547396_haisus'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
 
